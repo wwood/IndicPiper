@@ -16,7 +16,7 @@ Install the required packages with:
 ```r
 install.packages(c(
   "tidyr", "dplyr", "tibble", "permute", "indicspecies",
-  "ggplot2", "data.table", "FSA", "rlang",
+  "ggplot2", "data.table", "rlang",
   "R.utils", "reshape2"
 ))
 ```
