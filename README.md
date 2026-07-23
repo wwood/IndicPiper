@@ -135,6 +135,17 @@ IndicPiper has 4 main functions:\
    - `custom_order`: a custom order for the facets. Supply a character vector of habitat names in the desired order.  
      Default = `NULL`
 
+## Testing
+A test suite exercises all four IndicPiper functions end-to-end. Because the real Zenodo inputs are very large (hundreds of thousands of samples, needing ~275 Gb RAM), the tests instead run against a small synthetic dataset generated on the fly, so the whole suite finishes in seconds.
+
+The R dependencies are managed with [pixi](https://pixi.sh). To run the tests locally:
+
+```bash
+pixi run test
+```
+
+This generates the mock data (`tests/generate_mock_data.R`) and then runs the test suite (`tests/run_tests.R`). The tests also run automatically on every push and pull request via GitHub Actions (see `.github/workflows/test.yml`).
+
 ## Resources
 We recommend running IndicPiper on a server or supercomputer due to the size of the databases and the heavy computation needed to run all of the iterations of multipatt on the large input tables. IndicPiper v2 was developed on a supercomputer with 275 Gb RAM. `countHabitats` took 1 minute. `prepIndicPiper` took 44 minutes with 20 cores. `runIndicPiper` took 7 hours with 16 cores for 100 runs. `checkIndicPiper` took 22 seconds.
 
