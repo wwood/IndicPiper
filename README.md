@@ -21,6 +21,12 @@ install.packages(c(
 ))
 ```
 
+Alternatively, if you use [pixi](https://pixi.sh), a `pixi.toml` is included that pins R and all of the required packages. Running any pixi command in the repository (for example `pixi shell`, or `pixi run test`) will install R and the packages into an isolated environment for you — no `install.packages()` needed:
+
+```bash
+pixi shell     # drop into a shell with R and all packages available, then run R / Rscript
+```
+
 You will also need the two starting input files, which can be downloaded from Zenodo:
 
 https://zenodo.org/records/20855888
