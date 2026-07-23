@@ -9,6 +9,15 @@ There is also a function to generate a diagnostic plot (`checkIndicPiper()`) so 
 
 ## Installation
 
+IndicPiper is distributed only through GitHub (https://github.com/cliffbueno/IndicPiper). There is no CRAN/Bioconda package to install. Get the code by either cloning the repository:
+
+```bash
+git clone https://github.com/cliffbueno/IndicPiper.git
+cd IndicPiper
+```
+
+or downloading a release (or the current source) as a ZIP from the [GitHub page](https://github.com/cliffbueno/IndicPiper) and unzipping it. The functions live in `IndicPiper.R`, which you load with `source("IndicPiper.R")`.
+
 To run IndicPiper, you only need R and a few R packages. IndicPiper was developed with R 4.5.2.
 
 Install the required packages with:
