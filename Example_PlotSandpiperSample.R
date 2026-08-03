@@ -1,7 +1,12 @@
 # Example: aggregate a single Sandpiper sample's genus profile by indicator
 # habitat using the pre-built IndicPiper v2 database, and plot the result.
 #
-# The genus profile below comes straight from the Sandpiper API:
+# The genus profile below comes straight from the Sandpiper API for
+# SRR34514425, a human gut metagenome from:
+# Fernandes, R., Jabbarizadeh, B., Rajeh, A. et al. Fecal microbiota
+# transplantation plus immunotherapy in metastatic renal cell carcinoma: the
+# phase 1 PERFORM trial. Nat Med 32, 1325-1336 (2026).
+# https://doi.org/10.1038/s41591-025-04183-8
 # https://sandpiper.qut.edu.au/api/condensed_csv_with_extras/SRR34514425?taxonomy_type=gtdb
 
 library(dplyr)
