@@ -5,7 +5,7 @@ This repo contains the IndicPiper database made by Cliff Bueno de Mesquita based
 
 The pre-built database is distributed as part of this repository rather than via Zenodo. It is committed as `genus_habitat_indicators_v2.csv` (GTDB r232 taxonomy) and `genus_habitat_indicators_v1.csv` (GTDB r226 taxonomy, see the `v1.0.0` release/tag). Cloning the repository or downloading a release ZIP as described in [Installation](#installation) gives you these files directly at the top level of the repo.
 
-For example, `Example_PlotSandpiperSample.R` takes a GTDB genus-level taxonomic profile for sample SRR34514425 — a human gut metagenome from (Fernandes et al. 2026), see References — exact-matches its genera against `genus_habitat_indicators_v2.csv`, aggregates relative abundance by indicator habitat, and plots the result. The profile is committed to this repo as `SRR34514425_condensed.tsv` so the example doesn't depend on the Sandpiper API being up; it was obtained with:
+For example, `Example_PlotSandpiperSample.R` takes a GTDB genus-level taxonomic profile for sample SRR34514425 — a human gut metagenome from (Fernandes et al. 2026) — exact-matches its genera against `genus_habitat_indicators_v2.csv`, aggregates relative abundance by indicator habitat, and plots the result. The profile is committed to this repo as `SRR34514425_condensed.tsv` so the example doesn't depend on the Sandpiper API; it was obtained with:
 
 ```bash
 wget -O SRR34514425_condensed.tsv \
