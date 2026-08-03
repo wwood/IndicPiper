@@ -3,6 +3,45 @@ IndicPiper: microbial indicator taxa analysis using Sandpiper and multipatt
 
 This repo contains the IndicPiper database made by Cliff Bueno de Mesquita based on 13 habitats, using 100 runs, 250 random samples per habitat per run, and cutoffs of indicator in 100% of runs, mean p-value < 0.01, and mean IndVal > 0.5. For many cases, you can just use this database for your projects. Whether you have metagenomes or 16S sequencing, just use GTDB taxonomy and perform exact name matching at the genus level. IndicPiper v2 uses GTDB r232 taxonomy. For GTDB r226 taxonomy, use IndicPiper v1 (see releases). Then, for example, you can aggregate relative abundances by indicator habitat, and perform statistics and plotting. 
 
+The pre-built database is distributed as part of this repository rather than via Zenodo. It is committed as `genus_habitat_indicators_v2.csv` (GTDB r232 taxonomy) and `genus_habitat_indicators_v1.csv` (GTDB r226 taxonomy, see the `v1.0.0` release/tag). Cloning the repository or downloading a release ZIP as described in [Installation](#installation) gives you these files directly at the top level of the repo.
+
+For example, `Example_PlotSandpiperSample.R` downloads a GTDB genus-level taxonomic profile for sample SRR34514425 straight from the Sandpiper API, exact-matches its genera against `genus_habitat_indicators_v2.csv`, aggregates relative abundance by indicator habitat, and plots the result. The key steps are:
+
+```r
+# Load the pre-built IndicPiper database (habitat indicator genera)
+ind <- read.csv("genus_habitat_indicators_v2.csv")
+
+# Load a GTDB condensed taxonomic profile for one sample from Sandpiper
+profile <- read.delim("https://sandpiper.qut.edu.au/api/condensed_csv_with_extras/SRR34514425?taxonomy_type=gtdb")
+
+# Keep genus-level rows and strip the rank prefixes so the taxonomy strings
+# match the format used in genus_habitat_indicators_v2.csv
+genus <- profile %>%
+  filter(level == "genus") %>%
+  mutate(Taxonomy = gsub("^Root; |d__|p__|c__|o__|f__|g__", "", taxonomy))
+
+# Exact-match genera to their indicator habitat; anything not in the
+# database is "Non-indicator"
+genus_annotated <- genus %>%
+  left_join(ind %>% select(Taxonomy, Habitat), by = "Taxonomy") %>%
+  mutate(Habitat = ifelse(is.na(Habitat), "Non-indicator", Habitat))
+
+# Aggregate relative abundance by indicator habitat
+habitat_abund <- genus_annotated %>%
+  group_by(Habitat) %>%
+  summarise(relative_abundance = sum(relative_abundance), .groups = "drop")
+```
+
+Run the full script (including the plotting code) with:
+
+```bash
+pixi run Rscript Example_PlotSandpiperSample.R
+```
+
+which produces:
+
+![Relative abundance of SRR34514425 by IndicPiper indicator habitat](img/SRR34514425_habitat_abundance.png)
+
 There are also functions (in IndicPiper.R) to generate your own database based on habitats of interest or different parameters. The starting metadata and taxaonomic profile files are available on Zenodo (https://zenodo.org/records/20855888), and these were generated with GenerateStartingPoint.R. You can then supply the functions with your habitats of interest and cutoffs you want to use. We recommend not going any less stringent than the cutoffs we used, but you could potentially try more stringent cutoffs to get only the strongest associations. We also recommend focusing on habitats that have good sample sizes (ideally in the hundreds of samples). We have removed habitats with < 50 samples.  
 
 There is also a function to generate a diagnostic plot (`checkIndicPiper()`) so you can see to what relative abundance the indicator taxa sum to in the target habitat as well as how much they spill over into other habitats.
@@ -52,7 +91,9 @@ wget "https://zenodo.org/records/20855888/files/Sandpiper_Metadata_Filt_n451568.
 
 ## Usage
 To use the provided database, generate GTDB taxonomic abundance profiles from metagenomes or 16S rRNA gene sequencing and then exact match by genus name to assign genera as "non-indicator" or as indicators of the habitats according to the IndicPiper output. Then you can just aggregate by indicator taxa and plot relative abundances as you would for any other aggregated taxonomic level like phylum.
- 
+
+## Generating a custom database
+
 You can also generate your own database (for example, if you need a habitat not in the 13 provided).
 
 To do a custom run of IndicPiper, download the two input files from Zenodo https://zenodo.org/records/20855888.
