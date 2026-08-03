@@ -5,14 +5,21 @@ This repo contains the IndicPiper database made by Cliff Bueno de Mesquita based
 
 The pre-built database is distributed as part of this repository rather than via Zenodo. It is committed as `genus_habitat_indicators_v2.csv` (GTDB r232 taxonomy) and `genus_habitat_indicators_v1.csv` (GTDB r226 taxonomy, see the `v1.0.0` release/tag). Cloning the repository or downloading a release ZIP as described in [Installation](#installation) gives you these files directly at the top level of the repo.
 
-For example, `Example_PlotSandpiperSample.R` downloads a GTDB genus-level taxonomic profile for sample SRR34514425 — a human gut metagenome from Fernandes, R., Jabbarizadeh, B., Rajeh, A. et al. Fecal microbiota transplantation plus immunotherapy in metastatic renal cell carcinoma: the phase 1 PERFORM trial. *Nat Med* 32, 1325–1336 (2026). https://doi.org/10.1038/s41591-025-04183-8 — straight from the Sandpiper API, exact-matches its genera against `genus_habitat_indicators_v2.csv`, aggregates relative abundance by indicator habitat, and plots the result. The key steps are:
+For example, `Example_PlotSandpiperSample.R` takes a GTDB genus-level taxonomic profile for sample SRR34514425 — a human gut metagenome from (Fernandes et al. 2026), see References — exact-matches its genera against `genus_habitat_indicators_v2.csv`, aggregates relative abundance by indicator habitat, and plots the result. The profile is committed to this repo as `SRR34514425_condensed.tsv` so the example doesn't depend on the Sandpiper API being up; it was obtained with:
+
+```bash
+wget -O SRR34514425_condensed.tsv \
+  "https://sandpiper.qut.edu.au/api/condensed_csv_with_extras/SRR34514425?taxonomy_type=gtdb"
+```
+
+The key steps are:
 
 ```r
 # Load the pre-built IndicPiper database (habitat indicator genera)
 ind <- read.csv("genus_habitat_indicators_v2.csv")
 
-# Load a GTDB condensed taxonomic profile for one sample from Sandpiper
-profile <- read.delim("https://sandpiper.qut.edu.au/api/condensed_csv_with_extras/SRR34514425?taxonomy_type=gtdb")
+# Load the GTDB condensed taxonomic profile for this sample
+profile <- read.delim("SRR34514425_condensed.tsv")
 
 # Keep genus-level rows and strip the rank prefixes so the taxonomy strings
 # match the format used in genus_habitat_indicators_v2.csv
@@ -213,3 +220,5 @@ De Cáceres, M. and Legendre, P. (2009), Associations between species and groups
 Leff, J. 2022. mctoolsr: Microbial Community Data Analysis Tools. R package version 0.1.1.9. <https://github.com/leffj/mctoolsr>
 
 Woodcroft, B.J., Aroney, S.T.N., Zhao, R. *et al.* Comprehensive taxonomic identification of microbial species in metagenomic data using SingleM and Sandpiper. *Nat Biotechnol* (2025). https://doi.org/10.1038/s41587-025-02738-1
+
+Fernandes, R., Jabbarizadeh, B., Rajeh, A. *et al.* Fecal microbiota transplantation plus immunotherapy in metastatic renal cell carcinoma: the phase 1 PERFORM trial. *Nat Med* 32, 1325–1336 (2026). https://doi.org/10.1038/s41591-025-04183-8

@@ -1,13 +1,13 @@
 # Example: aggregate a single Sandpiper sample's genus profile by indicator
 # habitat using the pre-built IndicPiper v2 database, and plot the result.
 #
-# The genus profile below comes straight from the Sandpiper API for
-# SRR34514425, a human gut metagenome from:
-# Fernandes, R., Jabbarizadeh, B., Rajeh, A. et al. Fecal microbiota
-# transplantation plus immunotherapy in metastatic renal cell carcinoma: the
-# phase 1 PERFORM trial. Nat Med 32, 1325-1336 (2026).
-# https://doi.org/10.1038/s41591-025-04183-8
-# https://sandpiper.qut.edu.au/api/condensed_csv_with_extras/SRR34514425?taxonomy_type=gtdb
+# The genus profile (SRR34514425_condensed.tsv) is a GTDB condensed
+# taxonomic profile for SRR34514425, a human gut metagenome from
+# (Fernandes et al. 2026) -- see the References section of README.md for
+# the full citation. It was downloaded from the Sandpiper API with:
+#   wget -O SRR34514425_condensed.tsv \
+#     "https://sandpiper.qut.edu.au/api/condensed_csv_with_extras/SRR34514425?taxonomy_type=gtdb"
+# and is committed to this repo so the example doesn't depend on that API.
 
 library(dplyr)
 library(ggplot2)
@@ -15,8 +15,8 @@ library(ggplot2)
 # Load the pre-built IndicPiper database (habitat indicator genera)
 ind <- read.csv("genus_habitat_indicators_v2.csv")
 
-# Load a GTDB condensed taxonomic profile for one sample from Sandpiper
-profile <- read.delim("https://sandpiper.qut.edu.au/api/condensed_csv_with_extras/SRR34514425?taxonomy_type=gtdb")
+# Load the GTDB condensed taxonomic profile for this sample
+profile <- read.delim("SRR34514425_condensed.tsv")
 
 # Keep genus-level rows and strip the rank prefixes so the taxonomy strings
 # match the format used in genus_habitat_indicators_v2.csv
